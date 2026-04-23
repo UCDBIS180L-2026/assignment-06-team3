@@ -28,9 +28,9 @@ ui <- fluidPage( #create the overall page
   pageWithSidebar(
     headerPanel('Iris k-means clustering'),
     sidebarPanel(
-      selectInput('xcol', 'X Variable', vars),
-      selectInput('ycol', 'Y Variable', vars, selected = vars[[2]]),
-      numericInput('clusters', 'Cluster count', 3, min = 1, max = 9)
+      selectInput('xcol', 'X Variable', c("PC1", "PC2", "PC3", "PC4", "PC5")),
+      selectInput('ycol', 'Y Variable', c("PC1", "PC2", "PC3", "PC4", "PC5"),
+      radioButtons('clusters', 'Cluster count', 3, min = 1, max = 9)
     ),
     
     
