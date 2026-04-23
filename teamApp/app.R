@@ -9,17 +9,38 @@ pheno.geno.pca.pop <- left_join(geno.pca.pop, data.pheno, by=c("ID" = "ID"))
 #get rid of spaces in the phenotype names with "make.names()"
 colnames(pheno.geno.pca.pop) <- make.names(colnames(pheno.geno.pca.pop))
 
+
 head(pheno.geno.pca.pop)
+
+vars <- setdiff(names(iris), "Species")
+
 # Define UI for application 
 ui <- fluidPage( #create the overall page
     #UI code here
   #application titles
-  titlePanel()
+  titlePanel(),
   
-  
-  
-  
+  # Sidebar with a radio box to input which species will be plotted
+  pageWithSidebar(
+    headerPanel('Iris k-means clustering'),
+    sidebarPanel(
+      selectInput('xcol', 'X Variable', vars),
+      selectInput('ycol', 'Y Variable', vars, selected = vars[[2]]),
+      numericInput('clusters', 'Cluster count', 3, min = 1, max = 9)
+    ),
+    
+    
+    # Show a plot of the generated distribution
+    mainPanel(
+      plotOutput("boxPlot")
+    )
   )
+)
+
+  
+
+
+
 
 
 # Define server logic 
