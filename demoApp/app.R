@@ -22,13 +22,14 @@ ui <- fluidPage( #create the overall page
            "for plotting"),
   
   # Sidebar with a radio box to input which species will be plotted
-  pageWithSidebar(
-    headerPanel('Iris k-means clustering'),
+  sidebarLayout(
     sidebarPanel(
-      selectInput('xcol', 'X Variable', vars),
-      selectInput('ycol', 'Y Variable', vars, selected = vars[[2]]),
-      numericInput('clusters', 'Cluster count', 3, min = 1, max = 9)
-    ),
+      radioButtons("species", #the input variable that the value will go into
+                   "Choose a trait to display:",
+                   c("setosa",
+                     "versicolor",
+                     "virginica")
+      )),
     
     
     # Show a plot of the generated distribution
