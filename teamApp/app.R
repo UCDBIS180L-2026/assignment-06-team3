@@ -1,18 +1,15 @@
 library(shiny)
 # other libraries here
 library(tidyverse)
-# data loading and one-time processing here
 
+
+# data loading and one-time processing here
 load("data_from_SNP_lab.Rdata")
 pheno.geno.pca.pop <- left_join(geno.pca.pop, data.pheno, by=c("ID" = "ID"))
 
 #get rid of spaces in the phenotype names with "make.names()"
 colnames(pheno.geno.pca.pop) <- make.names(colnames(pheno.geno.pca.pop))
 
-
-head(pheno.geno.pca.pop)
-
-vars <- setdiff(names(iris), "Species")
 
 # Define UI for application 
 ui <- fluidPage( #create the overall page
@@ -30,7 +27,9 @@ ui <- fluidPage( #create the overall page
     sidebarPanel(
       selectInput('xcol', 'X Variable', c("PC1", "PC2", "PC3", "PC4", "PC5")),
       selectInput('ycol', 'Y Variable', c("PC1", "PC2", "PC3", "PC4", "PC5"),
-      radioButtons('clusters', 'Cluster count', 3, min = 1, max = 9)
+      radioButtons('label',
+                   'Choose to color by region or admixture assigned population:',
+                   c("Region", "assignedPop"))
     ),
     
     
@@ -38,7 +37,7 @@ ui <- fluidPage( #create the overall page
     mainPanel(
       plotOutput("boxPlot")
     )
-  )
+  ))
 )
 
   
