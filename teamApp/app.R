@@ -2,7 +2,7 @@ library(shiny)
 # other libraries here
 library(tidyverse)
 # data loading and one-time processing here
-setwd("~/Desktop/Assignment/assignment-06-team3")
+
 load("data_from_SNP_lab.Rdata")
 pheno.geno.pca.pop <- left_join(geno.pca.pop, data.pheno, by=c("ID" = "ID"))
 
