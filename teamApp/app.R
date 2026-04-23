@@ -19,7 +19,11 @@ ui <- fluidPage( #create the overall page
     #UI code here
   #application titles
   titlePanel(),
-  
+  #descriptions
+  helpText("This application creates a Principle Component Analysis (PCA) plot ",
+           "to show differences between different PCs and different labeling.  ",
+           "Please use the boxes below to choose a PC for each axis, and the label",
+           "for plotting."),
   # Sidebar with a radio box to input which species will be plotted
   pageWithSidebar(
     headerPanel('Iris k-means clustering'),
