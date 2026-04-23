@@ -4,7 +4,7 @@ library(tidyverse)
 
 
 # data loading and one-time processing here
-load("data_from_SNP_lab.Rdata")
+load("../data_from_SNP_lab.Rdata")
 pheno.geno.pca.pop <- left_join(geno.pca.pop, data.pheno, by=c("ID" = "ID"))
 
 #get rid of spaces in the phenotype names with "make.names()"
