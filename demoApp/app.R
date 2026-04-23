@@ -15,18 +15,18 @@ ui <- fluidPage( #create the overall page
   titlePanel("Iris Data"),
   
   # Some helpful information
-  helpText("This application creates a boxplot to show difference between",
-           "iris species.  Please use the radio box below to choose a species",
+  helpText("This application creates a violin plot to show differences between",
+           "traits in the same iris species.  Please use the radio box below to choose a species",
            "for plotting"),
   
-  # Sidebar with a radio box to input which trait will be plotted
+  # Sidebar with a radio box to input which species will be plotted
   sidebarLayout(
     sidebarPanel(
       radioButtons("species", #the input variable that the value will go into
                    "Choose a trait to display:",
-                   c("Setosa",
-                     "Versicolor",
-                     "Virginica")
+                   c("setosa",
+                     "versicolor",
+                     "virginica")
                    
       )),
     
@@ -50,13 +50,15 @@ server <- function(input, output) {
   
   output$boxPlot <- renderPlot({
     
-    plotTrait <- as.name(input$trait) # convert string to name
+    plotSpecies <- as.name(input$species) # convert string to name
     
     # set up the plot
-    pl <- ggplot(data = iris,
-                 aes(x=Species,
-                     y= !! plotTrait, # !! to use the column names contained in plotTrait
-                     fill=Species
+    pl <- ggplot(data = iris_long %>%
+                   filter(Species == plotSpecies) %>%
+                   select(Species, Trait, Size.cm),
+                 aes(x=Trait,
+                     y= Size.cm,
+                     fill=Trait
                  )
     )
     
