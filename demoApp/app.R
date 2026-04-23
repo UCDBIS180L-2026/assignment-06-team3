@@ -3,10 +3,10 @@ library(tidyverse)
 
 data(iris)
 
-
-
-
-
+iris_long <- iris %>%
+  pivot_longer(-Species, #exclude this one
+               names_to = "Trait",
+               values_to = "Size.cm")
 
 # Define UI for application that draws a box plot
 ui <- fluidPage( #create the overall page
