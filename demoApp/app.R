@@ -64,8 +64,8 @@ server <- function(input, output) {
                  )
     )
     
-    # draw the boxplot for the specified trait
-    pl + geom_boxplot()
+    # draw the violin for the specified trait
+    pl + geom_violin()
   })
 }
 
