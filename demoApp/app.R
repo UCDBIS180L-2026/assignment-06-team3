@@ -8,6 +8,8 @@ iris_long <- iris %>%
                names_to = "Trait",
                values_to = "Size.cm")
 
+vars <- setdiff(names(iris), "Species")
+
 # Define UI for application that draws a box plot
 ui <- fluidPage( #create the overall page
   
@@ -20,15 +22,14 @@ ui <- fluidPage( #create the overall page
            "for plotting"),
   
   # Sidebar with a radio box to input which species will be plotted
-  sidebarLayout(
+  pageWithSidebar(
+    headerPanel('Iris k-means clustering'),
     sidebarPanel(
-      radioButtons("species", #the input variable that the value will go into
-                   "Choose a trait to display:",
-                   c("setosa",
-                     "versicolor",
-                     "virginica")
-                   
-      )),
+      selectInput('xcol', 'X Variable', vars),
+      selectInput('ycol', 'Y Variable', vars, selected = vars[[2]]),
+      numericInput('clusters', 'Cluster count', 3, min = 1, max = 9)
+    ),
+    
     
     # Show a plot of the generated distribution
     mainPanel(
