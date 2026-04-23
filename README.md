@@ -1,10 +1,9 @@
 # Shiny
 
-Each group will develop and deploy a single shiny app.
-
-Add the URL to launch your app below:
+Click the link below to launch our shiny app:
 
 [Click here to launch our shiny app]()
 
 This app was developed by: 
 
+Arlette Hall, Quynh Nguyen and Norbaya Durr
