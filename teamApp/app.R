@@ -42,13 +42,13 @@ ui <- fluidPage(
 )
 
 
-#server: change input into output
+#server: convert input to output
 server <- function(input, output) {
   
   #output: create scatterPlot object
   output$scatterPlot <- renderPlot({
   
-    #convert input for plotting
+    #convert input to name objects for plotting
     X <- as.name(input$xcol)
     Y <- as.name(input$ycol)
     colorBy <- as.name(input$label)
@@ -62,9 +62,16 @@ server <- function(input, output) {
                      color = !! colorBy
                  )
     )
+    
+    #save plot labels in object based on input
+    if(colorBy == "assignedPop"){
+      plotLabels <- labs(x = X, y = Y, color = "Assigned Population")
+    }else{
+      plotLabels <- labs(x = X, y = Y, color = "Region")
+    }
   
     #display plot
-    plt + geom_point(na.rm = T)
+    plt + geom_point() + plotLabels
     
   })
 
