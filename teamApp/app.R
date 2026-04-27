@@ -36,7 +36,7 @@ ui <- fluidPage(
     
     #output: plot based on user input
     mainPanel(
-      plotOutput("boxPlot")
+      plotOutput("scatterPlot")
     )
   )
 )
@@ -45,19 +45,23 @@ ui <- fluidPage(
 #server: change input into output
 server <- function(input, output) {
   
-  #convert input for plotting
-  X <- as.name(input$xcol)
-  Y <- as.name(input$ycol)
+  #output: scatterxPlot object
+  output$scatterPlot <- renderPlot({
   
-  #save plot in object based on input
-  plt <- ggplot(data = pheno.geno.pca.pop,
-               aes(x = X,
-                   y = Y
-               )
-  )
+    #convert input for plotting
+    X <- as.name(input$xcol)
+    Y <- as.name(input$ycol)
   
-  #create plot
-  plt + geom_boxplot()
+    #save plot in object based on input
+    plt <- ggplot(data = pheno.geno.pca.pop,
+                 aes(x = X,
+                     y = Y
+                 )
+    )
+  
+    #create plot
+    plt + geom_boxplot()
+  })
 
 }
 
