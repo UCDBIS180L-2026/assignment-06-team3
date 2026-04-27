@@ -71,17 +71,17 @@ server <- function(input, output) {
     )
   
     #display plot
-    plt + geom_point() +
+    plt + geom_point(na.rm = T) +
       #plot labeling based on input
       labs(x = X, y = Y,
            title = paste(Y, " vs. ", X, " by ", colorText),
            color = colorText) +
       #plot aesthetics
+      theme_light() + #plot background: pre-made ggplot2 theme
       theme(plot.title = element_text(size=rel(2), hjust=.5, face = "bold"), #title: resize, center, bold
             axis.title.x = element_text(size = rel(1.5), face = "bold"), #x-axis: resize, bold title
             axis.title.y = element_text(size = rel(1.5), face = "bold"), #y-axis: resize, bold title
-            legend.title = element_text(face = "bold"), #legend: bold title
-            legend.key = element_rect(fill = NA)) #legend: remove ugly grey boxes
+            legend.title = element_text(face = "bold")) #legend: bold title
     
   })
 
