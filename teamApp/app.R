@@ -60,12 +60,12 @@ server <- function(input, output) {
     plt <- ggplot(data = pheno.geno.pca.pop,
                  aes(x = !! X,
                      y = !! Y,
-                     fill = !! colorBy
+                     color = !! colorBy
                  )
     )
   
     #display plot
-    plt + geom_boxplot(na.rm = T)
+    plt + geom_point(na.rm = T)
   })
 
 }
