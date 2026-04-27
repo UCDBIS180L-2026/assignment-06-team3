@@ -4,7 +4,7 @@ library(shiny)
 library(tidyverse)
 
 #data loading and one-time processing here
-load("../data_from_SNP_lab.Rdata")
+load("data/data_from_SNP_lab.Rdata")
 pheno.geno.pca.pop <- left_join(geno.pca.pop, data.pheno, by=c("ID" = "ID"))
 
 #get rid of spaces in the phenotype names with "make.names()"
@@ -25,7 +25,7 @@ ui <- fluidPage(
   
   #input: sidebar with 2 drop downs (PCs) and 1 radio box (Region or assignedPop)
   pageWithSidebar(
-    headerPanel(" "),
+    headerPanel(""),
     sidebarPanel(
       selectInput('xcol', 'X Variable:', c("PC1", "PC2", "PC3", "PC4", "PC5")),
       selectInput('ycol', 'Y Variable:', c("PC1", "PC2", "PC3", "PC4", "PC5")),
@@ -53,19 +53,10 @@ server <- function(input, output) {
     Y <- as.name(input$ycol)
     colorBy <- as.name(input$label)
     
-    #if Region selected
-    if (colorBy == "Region"){
-      #get rid of NAs in Region
-      plot_data_no_nas <- pheno.geno.pca.pop %>%
-        filter(Region != "NA")
-    #else assignedPop selected
-    }else{
-      plot_data_no_nas <- pheno.geno.pca.pop %>%
-        filter(assignedPop != "NA")
-    }
-  
     #save plot in object based on input
-    plt <- ggplot(data = plot_data_no_nas,
+    plt <- ggplot(data = pheno.geno.pca.pop %>%
+                    #remove NAs based on color input
+                    filter(!! colorBy != "NA"),
                  aes(x = !! X,
                      y = !! Y,
                      color = !! colorBy
@@ -74,6 +65,7 @@ server <- function(input, output) {
   
     #display plot
     plt + geom_point(na.rm = T)
+    
   })
 
 }
