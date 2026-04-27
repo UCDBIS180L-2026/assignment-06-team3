@@ -6,9 +6,6 @@ library(tidyverse)
 #data loading and one-time processing here
 load("../data_from_SNP_lab.Rdata")
 pheno.geno.pca.pop <- left_join(geno.pca.pop, data.pheno, by=c("ID" = "ID"))
-#get rid of NAs in Region
-pheno.geno.pca.pop <- pheno.geno.pca.pop %>%
-  filter(Region != "NA")
 
 #get rid of spaces in the phenotype names with "make.names()"
 colnames(pheno.geno.pca.pop) <- make.names(colnames(pheno.geno.pca.pop))
@@ -55,9 +52,20 @@ server <- function(input, output) {
     X <- as.name(input$xcol)
     Y <- as.name(input$ycol)
     colorBy <- as.name(input$label)
+    
+    #if Region selected
+    if (colorBy == "Region"){
+      #get rid of NAs in Region
+      plot_data_no_nas <- pheno.geno.pca.pop %>%
+        filter(Region != "NA")
+    #else assignedPop selected
+    }else{
+      plot_data_no_nas <- pheno.geno.pca.pop %>%
+        filter(assignedPop != "NA")
+    }
   
     #save plot in object based on input
-    plt <- ggplot(data = pheno.geno.pca.pop,
+    plt <- ggplot(data = plot_data_no_nas,
                  aes(x = !! X,
                      y = !! Y,
                      color = !! colorBy
