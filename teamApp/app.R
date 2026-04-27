@@ -45,12 +45,20 @@ ui <- fluidPage(
 #server: change input into output
 server <- function(input, output) {
   
-  #create plot
-  boxPlot <- renderPlot(
-    ggplot() +
-    geom_point(data = pheno.geno.pca.pop,
-               aes(x = input$xcol, y = input$ycol))
+  #convert input for plotting
+  X <- as.name(input$xcol)
+  Y <- as.name(input$ycol)
+  
+  #save plot in object based on input
+  plt <- ggplot(data = pheno.geno.pca.pop,
+               aes(x = X,
+                   y = Y
+               )
   )
+  
+  #create plot
+  plt + geom_boxplot()
+
 }
 
 
