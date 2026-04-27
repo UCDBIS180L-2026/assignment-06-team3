@@ -6,6 +6,9 @@ library(tidyverse)
 #data loading and one-time processing here
 load("../data_from_SNP_lab.Rdata")
 pheno.geno.pca.pop <- left_join(geno.pca.pop, data.pheno, by=c("ID" = "ID"))
+#get rid of NAs in Region
+pheno.geno.pca.pop <- pheno.geno.pca.pop %>%
+  filter(Region != "NA")
 
 #get rid of spaces in the phenotype names with "make.names()"
 colnames(pheno.geno.pca.pop) <- make.names(colnames(pheno.geno.pca.pop))
@@ -27,8 +30,8 @@ ui <- fluidPage(
   pageWithSidebar(
     headerPanel(" "),
     sidebarPanel(
-      selectInput('xcol', 'X Variable', c("PC1", "PC2", "PC3", "PC4", "PC5")),
-      selectInput('ycol', 'Y Variable', c("PC1", "PC2", "PC3", "PC4", "PC5")),
+      selectInput('xcol', 'X Variable:', c("PC1", "PC2", "PC3", "PC4", "PC5")),
+      selectInput('ycol', 'Y Variable:', c("PC1", "PC2", "PC3", "PC4", "PC5")),
       radioButtons('label',
                    'Choose to color by region or admixture assigned population:',
                    c("Region", "assignedPop"))
@@ -45,22 +48,24 @@ ui <- fluidPage(
 #server: change input into output
 server <- function(input, output) {
   
-  #output: scatterxPlot object
+  #output: create scatterPlot object
   output$scatterPlot <- renderPlot({
   
     #convert input for plotting
     X <- as.name(input$xcol)
     Y <- as.name(input$ycol)
+    colorBy <- as.name(input$label)
   
     #save plot in object based on input
     plt <- ggplot(data = pheno.geno.pca.pop,
-                 aes(x = X,
-                     y = Y
+                 aes(x = !! X,
+                     y = !! Y,
+                     fill = !! colorBy
                  )
     )
   
-    #create plot
-    plt + geom_boxplot()
+    #display plot
+    plt + geom_boxplot(na.rm = T)
   })
 
 }

@@ -26,6 +26,11 @@ shiny_app_data <- pheno.geno.pca.pop %>%
 summary(shiny_app_data)
 glimpse(shiny_app_data)
 ```
+```{r}
+#get rid of NAs in Region
+pheno.geno.pca.pop <- pheno.geno.pca.pop %>%
+  filter(Region != "NA")
+```
 
 ## Including Plots
 
