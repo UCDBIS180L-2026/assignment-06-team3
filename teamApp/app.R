@@ -1,4 +1,5 @@
 #load libraries
+library(ggplot2)
 library(shiny)
 library(tidyverse)
 
@@ -14,7 +15,7 @@ colnames(pheno.geno.pca.pop) <- make.names(colnames(pheno.geno.pca.pop))
 ui <- fluidPage(
 
   #application title
-  titlePanel(),
+  titlePanel("App"),
   
   #description of Shiny app
   helpText("This application creates a Principle Component Analysis (PCA) plot ",
@@ -24,10 +25,10 @@ ui <- fluidPage(
   
   #input: sidebar with 2 drop downs (PCs) and 1 radio box (Region or assignedPop)
   pageWithSidebar(
-    headerPanel('Iris k-means clustering'),
+    headerPanel(" "),
     sidebarPanel(
       selectInput('xcol', 'X Variable', c("PC1", "PC2", "PC3", "PC4", "PC5")),
-      selectInput('ycol', 'Y Variable', c("PC1", "PC2", "PC3", "PC4", "PC5"),
+      selectInput('ycol', 'Y Variable', c("PC1", "PC2", "PC3", "PC4", "PC5")),
       radioButtons('label',
                    'Choose to color by region or admixture assigned population:',
                    c("Region", "assignedPop"))
@@ -37,15 +38,19 @@ ui <- fluidPage(
     mainPanel(
       plotOutput("boxPlot")
     )
-  ))
+  )
 )
 
 
 #server: change input into output
 server <- function(input, output) {
   
-  # server code here
-  
+  #create plot
+  boxPlot <- renderPlot(
+    ggplot() +
+    geom_point(data = pheno.geno.pca.pop,
+               aes(x = input$xcol, y = input$ycol))
+  )
 }
 
 
