@@ -23,7 +23,7 @@ ui <- fluidPage(
            "Please use the boxes below to choose a PC for each axis, and the label",
            "for plotting."),
   
-  #input: sidebar with 2 drop downs (PCs) and 1 radio box (Region or assignedPop)
+  #user input: sidebar with 2 drop downs (PCs) and 1 radio box (Region or assignedPop)
   pageWithSidebar(
     headerPanel(""),
     sidebarPanel(
@@ -53,7 +53,14 @@ server <- function(input, output) {
     Y <- as.name(input$ycol)
     colorBy <- as.name(input$label)
     
-    #save plot in object based on input
+    #save text for plot legend and title based on color input
+    if(colorBy == "assignedPop"){
+      colorText <- "Assigned Pop."
+    }else{
+      colorText <- "Region"
+    }
+    
+    #save basic plot object based on color input
     plt <- ggplot(data = pheno.geno.pca.pop %>%
                     #remove NAs based on color input
                     filter(!! colorBy != "NA"),
@@ -62,16 +69,19 @@ server <- function(input, output) {
                      color = !! colorBy
                  )
     )
-    
-    #save plot labels in object based on input
-    if(colorBy == "assignedPop"){
-      plotLabels <- labs(x = X, y = Y, color = "Assigned Population")
-    }else{
-      plotLabels <- labs(x = X, y = Y, color = "Region")
-    }
   
     #display plot
-    plt + geom_point() + plotLabels
+    plt + geom_point() +
+      #plot labeling based on input
+      labs(x = X, y = Y,
+           title = paste(Y, " vs. ", X, " by ", colorText),
+           color = colorText) +
+      #plot aesthetics
+      theme(plot.title = element_text(size=rel(2), hjust=.5, face = "bold"), #title: resize, center, bold
+            axis.title.x = element_text(size = rel(1.5), face = "bold"), #x-axis: resize, bold title
+            axis.title.y = element_text(size = rel(1.5), face = "bold"), #y-axis: resize, bold title
+            legend.title = element_text(face = "bold"), #legend: bold title
+            legend.key = element_rect(fill = NA)) #legend: remove ugly grey boxes
     
   })
 
