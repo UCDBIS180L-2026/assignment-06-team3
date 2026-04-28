@@ -24,7 +24,7 @@ ui <- fluidPage(
            "by Region that the rice sample is found, or by population assigned by ",
            "admixture model with k=4 (assummed 4 ancestral population. Each dot ",
            "is an individual rice sample. Please use the boxes below to choose a ",
-           "PC for each axis, and the labelfor plotting."),
+           "PC for each axis, and the label for plotting."),
   
   #user input: sidebar with 2 drop downs (PCs) and 1 radio box (Region or assignedPop)
   pageWithSidebar(
