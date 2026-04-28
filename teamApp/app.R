@@ -34,7 +34,7 @@ ui <- fluidPage(
       selectInput('ycol', 'Y Variable:', c("PC1", "PC2", "PC3", "PC4", "PC5")),
       radioButtons('label',
                    'Choose to color by region or admixture assigned population:',
-                   c("Region", "assignedPop"))
+                   c("Region", "Assigned Pop."))
     ),
     
     #output: plot based on user input
@@ -54,13 +54,13 @@ server <- function(input, output) {
     #convert input to name objects for plotting
     X <- as.name(input$xcol)
     Y <- as.name(input$ycol)
-    colorBy <- as.name(input$label)
+    colorText <- as.name(input$label)
     
     #save text for plot legend and title based on color input
-    if(colorBy == "assignedPop"){
-      colorText <- "Assigned Pop."
+    if(colorText == "Assigned Pop."){
+      colorBy <- as.name("assignedPop")
     }else{
-      colorText <- "Region"
+      colorBy <- as.name("Region")
     }
     
     #save basic plot object based on color input
