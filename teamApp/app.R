@@ -18,10 +18,13 @@ ui <- fluidPage(
   titlePanel("App"),
   
   #description of Shiny app
-  helpText("This application creates a Principle Component Analysis (PCA) plot ",
-           "to show differences between different PCs and different labeling.  ",
-           "Please use the boxes below to choose a PC for each axis, and the label",
-           "for plotting."),
+  helpText("This application creates a Principle Component Analysis (PCA) plot of  ",
+           "rice diversity based on SNP data to show differences between different ",
+           "PCs and different metadata labelling. The labeling options are either ", 
+           "by Region that the rice sample is found, or by population assigned by ",
+           "admixture model with k=4 (assummed 4 ancestral population. Each dot ",
+           "is an individual rice sample. Please use the boxes below to choose a ",
+           "PC for each axis, and the labelfor plotting."),
   
   #user input: sidebar with 2 drop downs (PCs) and 1 radio box (Region or assignedPop)
   pageWithSidebar(
